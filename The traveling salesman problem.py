@@ -4,7 +4,7 @@ import numpy as np
 """
 The program takes the input data, which is a m x m matrix that store the distance between each pair of nodes
 (data[i,j] = distance from node i to node j), and returns the optimal solution to travel from one node through
-every other nodes (each node is visited only once) and then return to the first node with minimum travel distance.
+all other nodes (each node is visited only once) and then return to the first node with minimum travel distance.
 
 Since there is no point in traveling from one node to itself, data[i,i] should be a very big positive number for 
 all i.
