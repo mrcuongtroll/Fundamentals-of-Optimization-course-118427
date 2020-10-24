@@ -1,5 +1,14 @@
 import numpy as np
 from ortools.linear_solver import pywraplp
+
+"""
+slots: The credits of the courses with len(slots) = N is the number of courses
+pref: Preferences of the teachers with len(pref) = T is the number of teachers
+conflict: Pairs of courses that have conflicting schedule
+The goal here is to assign these course to the teachers so that each teacher only teaches courses
+of his/her preference, each course is taught by only 1 teacher, and the teaching loads of the teachers
+should be balanced so that no one is overworked or underworked.
+"""
 N = 13
 T = 3
 slots = np.array([3,3,4,3,4,3,3,3,4,3,3,4,4])
