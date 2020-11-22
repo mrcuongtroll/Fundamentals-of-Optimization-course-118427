@@ -14,10 +14,10 @@ def TSP(data: np.array):
     #Create subsets:
     nodes = len(data)
     sub = []
-    for i in range(2**nodes):
+    for i in range(2**(nodes-1)):
         bina = bin(i)[2:].zfill(nodes)
         bina = bina[::-1]
-        sub.append([t for t in range(nodes) if bina[t] == '1'])
+        sub.append([t+1 for t in range(nodes) if bina[t] == '1'])
 
     #Creat solver:
     solver = pywraplp.Solver.CreateSolver('TSP', 'CBC')
@@ -36,13 +36,18 @@ def TSP(data: np.array):
             constraint.SetCoefficient(var[i,j],1)
 
     #Set constraints for not looping throughout the journey:
+    for j in range(nodes):
+        constraint = solver.Constraint(1,inf)
+        for i in range(nodes):
+            constraint.SetCoefficient(var[i,j], 1)
+
+    #Set constraints for no subtour:
     for k in sub:
-        if len(k) == 0:
-            continue
-        for j in range(len(k)):
-            constraint = solver.Constraint(0, 1)
-            for i in range(len(k)):
-                constraint.SetCoefficient(var[i, j], 1)
+        if len(k) >= 2:
+            constraint = solver.Constraint(0, len(k) - 1)
+            for j in k:
+                for i in k:
+                    constraint.SetCoefficient(var[i, j], 1)
 
     #Set objective:
     objective = solver.Objective()
